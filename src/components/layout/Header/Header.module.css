@@ -23,6 +23,8 @@
 
 .logoContainer {
   font-style: italic;
+  letter-spacing: 2px;
+  transform: scaleY(0.7);
 }
 
 .userWrapper {

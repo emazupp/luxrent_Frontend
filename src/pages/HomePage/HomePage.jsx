@@ -7,7 +7,14 @@ export default function HomePage() {
     <>
       <MenuSidebar />
       <div className={styles.jumboWrapper}>
-        <img src={jumbo} alt="jumbo-image" />
+        <div className={styles.jumboContent}>
+          <div className={styles.sectionTitle}>
+            <h1>Il tuo viaggio inizia qui</h1>
+          </div>
+          <div className={styles.jumboLowerButton}>
+            <span>Affita ora un'auto</span>
+          </div>
+        </div>
       </div>
       <div className={styles.jumboWrapper}>
         <img src={jumbo} alt="jumbo-image" />
