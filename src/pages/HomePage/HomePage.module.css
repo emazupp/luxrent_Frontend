@@ -1,0 +1,13 @@
+.jumboWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.jumboWrapper > img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
