@@ -1,5 +1,5 @@
 .menuSidebarWrapper {
-  width: 40%;
+  width: 30%;
   background-color: white;
   height: 100vh;
   position: fixed;
@@ -23,4 +23,40 @@
 .menuSidebarClose:hover {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 5px;
+}
+
+.menuSidebar {
+  font-size: 1.6rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 50%;
+}
+
+.menuSidebarItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.menuSidebarItem:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+.menuSidebarItem.active {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.menuSidebar i {
+  font-size: 1rem;
+}
+
+.menuSidebar a {
+  text-decoration: none;
+  color: black;
 }

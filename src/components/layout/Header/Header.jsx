@@ -11,7 +11,9 @@ export default function Header() {
         <span>Menu</span>
       </div>
       <div className={styles.logoContainer}>
-        <h1>LUXRENT</h1>
+        <h1>
+          <a href="/">LUXRENT</a>
+        </h1>
       </div>
       <div className={styles.userWrapper}>
         <div className={styles.userContainer}>

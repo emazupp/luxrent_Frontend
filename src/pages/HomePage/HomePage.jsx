@@ -37,6 +37,10 @@ export default function HomePage() {
             <span>Affitta ora</span>
             <i class="fa-solid fa-chevron-down"></i>
           </div>
+
+          <div className={styles.jumboStopButton}>
+            <i class="fa-solid fa-pause"></i>
+          </div>
         </div>
       </div>
       <div className={styles.jumboWrapper}>
