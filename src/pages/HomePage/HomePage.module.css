@@ -11,6 +11,77 @@
   height: 100%;
 }
 
+.jumboContent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-around;
+  color: white;
+}
+
+.upperSectionWrapper {
+  margin-top: 70px;
+  padding: 3rem 1rem 1rem 1rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.upperSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.upperLeftSection {
+  display: flex;
+  flex: 0 0 60%;
+  align-items: center;
+  gap: 10px;
+}
+
+.upperSectionTitles {
+  display: flex;
+  flex-direction: column;
+}
+
+.separatorLine {
+  width: 100px;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.sloganSection {
+  display: flex;
+  flex-direction: column;
+  padding-left: calc(5px + 9vw);
+  padding-bottom: 2rem;
+  font-size: min(calc(1rem + 8vw), 5rem);
+  font-weight: 500;
+  letter-spacing: -3px;
+  line-height: 80px;
+}
+
+.upperRightSection {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 40%;
+}
+
 .jumboLowerButton {
-  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  height: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  color: rgba(255, 255, 255, 0.8);
+  gap: 1rem;
+}
+
+.jumboLowerButton > span {
+  font-size: 1.4rem;
+  padding: 1rem;
 }
