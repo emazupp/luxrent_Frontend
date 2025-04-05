@@ -1,9 +1,10 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const GlobalContext = createContext();
 
 export function GlobalProvider({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [brands, setBrands] = useState([]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => {
@@ -18,6 +19,17 @@ export function GlobalProvider({ children }) {
       return newIsSidebarOpen;
     });
   };
+
+  async function getBrands() {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/brands`);
+    const data = await res.json();
+
+    setBrands(data.results);
+  }
+
+  useEffect(() => {
+    getBrands();
+  }, []);
 
   return (
     <GlobalContext.Provider value={{ isSidebarOpen, toggleSidebar }}>
