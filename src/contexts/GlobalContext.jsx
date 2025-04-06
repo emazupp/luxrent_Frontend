@@ -23,7 +23,6 @@ export function GlobalProvider({ children }) {
   async function getBrands() {
     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/brands`);
     const data = await res.json();
-
     setBrands(data.results);
   }
 
@@ -32,7 +31,7 @@ export function GlobalProvider({ children }) {
   }, []);
 
   return (
-    <GlobalContext.Provider value={{ isSidebarOpen, toggleSidebar }}>
+    <GlobalContext.Provider value={{ isSidebarOpen, toggleSidebar, brands }}>
       {children}
     </GlobalContext.Provider>
   );

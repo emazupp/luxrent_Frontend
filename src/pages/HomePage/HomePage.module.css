@@ -1,6 +1,12 @@
-.jumboWrapper {
+section {
   height: 100vh;
+}
+
+/* JUMBO HERO SECTION */
+
+.jumboWrapper {
   position: relative;
+  height: 100%;
   width: 100%;
   overflow: hidden;
 }
@@ -126,3 +132,5 @@
 .jumboStopButton:active {
   transform: scale(0.98);
 }
+
+/* BRANDS SECTION */
