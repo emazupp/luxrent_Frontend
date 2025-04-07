@@ -2,13 +2,16 @@ import jumbo from "../../assets/img/jumbo.jpg";
 import jumboVideo from "../../assets/video/luxrent-jumbo.mp4";
 import styles from "./HomePage.module.css";
 import MenuSidebar from "../../components/layout/MenuSidebar/MenuSidebar";
-import { useRef, useState, useContext } from "react";
+import { useRef, useState, useContext, useEffect } from "react";
 import { GlobalContext } from "../../contexts/GlobalContext";
 
 export default function HomePage() {
   const videoRef = useRef(null);
   const [isVideoPaused, setIsVideoPaused] = useState(false);
+  const [isTimeoutPaused, setIsTimeoutPaused] = useState(false);
   const { brands } = useContext(GlobalContext);
+  const [idSelectedBrand, setIdSelectedBrand] = useState(0);
+  const selectedBrand = brands[idSelectedBrand];
 
   function toggleVideo() {
     const video = videoRef.current;
@@ -21,6 +24,20 @@ export default function HomePage() {
       setIsVideoPaused(true);
     }
   }
+
+  function handleChangeBrand(index) {
+    setIdSelectedBrand(index);
+    clearInterval(timeoutID);
+    setIsTimeoutPaused(true);
+  }
+
+  const timeoutID = setTimeout(() => {
+    if (brands && brands.length > 0 && !isTimeoutPaused) {
+      setIdSelectedBrand((prev) => {
+        return (prev + 1) % brands.length;
+      });
+    }
+  }, 3000);
 
   return (
     <>
@@ -87,35 +104,43 @@ export default function HomePage() {
       <section>
         <div className={styles.brandsSectionWrapper}>
           <div className={styles.upper_brandsSection}>
-            <div className={styles.description_brandsSection}>
-              <div className={styles.title_description_brandsSection}>
-                <h2>Marchio</h2>
-                <span>Dal 1999</span>
-              </div>
-              <div className={styles.content_desctiption_brandsSection}>
-                <span>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Magnam expedita atque tenetur nemo magni facere incidunt.
-                  Rerum, ipsa, error velit beatae dignissimos rem tempora qui
-                  eos, esse magni dolor aspernatur.
-                </span>
-              </div>
-            </div>
-            <div className={styles.image_brandsSection}>
-              <img src="" alt="" />
-            </div>
+            {brands && selectedBrand && (
+              <>
+                <div className={styles.description_brandsSection}>
+                  <div className={styles.description_brandSection_wrapper}>
+                    <div className={styles.title_description_brandsSection}>
+                      <h2>{selectedBrand.name}</h2>
+                      <span>Dal {selectedBrand.founded_year}</span>
+                    </div>
+                    <div className={styles.content_description_brandsSection}>
+                      <span>{selectedBrand.description}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.pattern_brandsSection}></div>
+                <img
+                  src={`${import.meta.env.VITE_BACKEND_URL}/${
+                    selectedBrand.main_image_path
+                  }`}
+                  alt={selectedBrand.name}
+                  className={styles.main_image_brandsSection}
+                />
+              </>
+            )}
           </div>
           <div className={styles.lower_brandsSection}>
             <div className={styles.brandsWrapper_brandsSection}>
               {brands &&
-                brands.map((brand) => {
-                  console.log(
-                    `${import.meta.env.VITE_BACKEND_URL}/${brand.logo_path}`
-                  );
+                brands.map((brand, index) => {
                   return (
                     <div
                       key={brand.id}
-                      className={styles.logoCard_brandsSection}
+                      className={
+                        selectedBrand?.id === brand.id
+                          ? `${styles.logoCard_brandsSection} ${styles.selected}`
+                          : styles.logoCard_brandsSection
+                      }
+                      onClick={() => handleChangeBrand(index)}
                     >
                       <img
                         src={`${import.meta.env.VITE_BACKEND_URL}/${
