@@ -365,4 +365,61 @@ section {
   transform: scale(1.03);
 }
 
-/*  */
+/* CUSTOMER SERVICE SECTION */
+
+.customerServiceSectionWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.content_customerServiceSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 85%;
+  gap: 40px;
+}
+
+.image_customerServiceSection {
+  flex: 0 0 50%;
+  overflow: hidden;
+  position: relative;
+}
+
+.image_customerServiceSection > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+}
+
+.description_customerServiceSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  flex: 0 0 40%;
+  gap: 20px;
+}
+
+.titleDescription_customerServiceSection {
+  width: 70%;
+  font-weight: 700;
+}
+
+.titleDescription_customerServiceSection > h2 {
+  font-size: 5rem;
+  line-height: 70px;
+}
+
+.contentDescription_customerServiceSection {
+  width: 70%;
+}
+
+.contentDescription_customerServiceSection > span {
+  font-size: 1.5rem;
+  color: rgba(0, 0, 0, 0.7);
+}

@@ -1,5 +1,5 @@
-import jumbo from "../../assets/img/jumbo.jpg";
 import jumboVideo from "../../assets/video/luxrent-jumbo.mp4";
+import customerService from "../../assets/img/customer-service.jpg";
 import styles from "./HomePage.module.css";
 import MenuSidebar from "../../components/layout/MenuSidebar/MenuSidebar";
 import { useRef, useState, useContext } from "react";
@@ -201,7 +201,13 @@ export default function HomePage() {
           </div>
 
           <div className={styles.content_customerServiceSection}>
-            <div className={styles.image_customerServiceSection}></div>
+            <div className={styles.image_customerServiceSection}>
+              <img
+                src={customerService}
+                alt="customer-service-img"
+                className={styles.fadedImage}
+              />
+            </div>
             <div className={styles.description_customerServiceSection}>
               <div className={styles.titleDescription_customerServiceSection}>
                 <h2>Affidabilità senza compromessi</h2>
