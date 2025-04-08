@@ -8,7 +8,6 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.menuContainer} onClick={toggleSidebar}>
         <i className="fa-solid fa-bars"></i>
-        <span>Menu</span>
       </div>
       <div className={styles.logoContainer}>
         <h1>

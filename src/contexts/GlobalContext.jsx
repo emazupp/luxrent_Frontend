@@ -1,37 +1,79 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useRef } from "react";
 
 export const GlobalContext = createContext();
 
 export function GlobalProvider({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [brands, setBrands] = useState([]);
+  const [isTimeoutPaused, setIsTimeoutPaused] = useState(false);
+  const [idSelectedBrand, setIdSelectedBrand] = useState(0);
+  const timeoutRef = useRef(null);
+
+  const scrollPosition = useRef(0);
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => {
       const newIsSidebarOpen = !prev;
+
       if (newIsSidebarOpen) {
-        document.body.style.overflowY = "scroll";
-        document.body.style.position = "fixed";
+        scrollPosition.current = window.scrollY;
+        document.body.style.top = `-${scrollPosition.current}px`;
+        document.body.classList.add("stopScroll");
       } else {
-        document.body.style.overflowY = "visible";
-        document.body.style.position = "static";
+        const scrollY = document.body.style.top;
+        document.body.style.top = "";
+        document.body.classList.remove("stopScroll");
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
       }
+
       return newIsSidebarOpen;
     });
   };
 
-  async function getBrands() {
+  const startTimeout = () => {
+    clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      if (brands.length > 0 && !isTimeoutPaused) {
+        setIdSelectedBrand((prev) => (prev + 1) % brands.length);
+      }
+    }, 3000);
+  };
+
+  const stopTimeout = () => {
+    clearTimeout(timeoutRef.current);
+    setIsTimeoutPaused(true);
+  };
+
+  async function fetchBrands() {
     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/brands`);
     const data = await res.json();
     setBrands(data.results);
   }
 
   useEffect(() => {
-    getBrands();
+    fetchBrands();
   }, []);
 
+  useEffect(() => {
+    if (brands.length > 0 && !isTimeoutPaused) {
+      startTimeout();
+    }
+
+    return () => clearTimeout(timeoutRef.current);
+  }, [idSelectedBrand, isTimeoutPaused, brands]);
+
   return (
-    <GlobalContext.Provider value={{ isSidebarOpen, toggleSidebar, brands }}>
+    <GlobalContext.Provider
+      value={{
+        isSidebarOpen,
+        toggleSidebar,
+        brands,
+        idSelectedBrand,
+        setIdSelectedBrand,
+        setIsTimeoutPaused,
+        stopTimeout,
+      }}
+    >
       {children}
     </GlobalContext.Provider>
   );

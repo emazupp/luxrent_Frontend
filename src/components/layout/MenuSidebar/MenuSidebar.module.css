@@ -1,55 +1,46 @@
 .menuSidebarWrapper {
-  width: 30%;
-  background-color: white;
-  height: 100vh;
+  width: 25%;
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 100%;
   position: fixed;
-  padding-top: 20px;
   z-index: 10;
+  backdrop-filter: blur(5px);
+  padding: 1rem;
 }
 
 .menuSidebarClose {
-  padding: 8px;
-  font-size: 1.5rem;
-  position: absolute;
-  right: -60px;
-  top: 15px;
-  width: 50px;
-  height: 50px;
-  vertical-align: middle;
+  font-size: 1.3em;
+  width: 30px;
+  aspect-ratio: 1;
   text-align: center;
   color: white;
 }
 
-.menuSidebarClose:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 5px;
-}
-
 .menuSidebar {
   font-size: 1.6rem;
-  padding: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  gap: 2rem;
   height: 50%;
+  padding-top: 1rem;
 }
 
 .menuSidebarItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 10px 20px;
   border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.menuSidebarClose:hover {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.2s ease-in-out;
 }
 
 .menuSidebarItem:hover {
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-}
-
-.menuSidebarItem.active {
-  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  transition: all 0.2s ease-in-out;
 }
 
 .menuSidebar i {
@@ -58,5 +49,9 @@
 
 .menuSidebar a {
   text-decoration: none;
-  color: black;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.menuSidebar a.active {
+  color: white;
 }

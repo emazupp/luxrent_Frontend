@@ -21,6 +21,7 @@
   border-radius: 5px;
   padding: 5px;
   transition: 0.35s ease;
+  font-size: 1.2rem;
 }
 
 .logoContainer {
@@ -45,11 +46,12 @@
   padding: 8px;
   border-radius: 5px;
   transition: 0.35s ease;
+  font-size: 1.2rem;
 }
 
 .userContainer:hover,
 .menuContainer:hover {
   cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.5);
   transition: 0.35s ease;
 }

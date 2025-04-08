@@ -1,6 +1,22 @@
 section {
   height: 100vh;
-  overflow: hidden;
+}
+
+.titleSection {
+  padding-left: 5rem;
+  font-weight: 500;
+  flex: 0 0 10%;
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.titleSection::before {
+  content: "";
+  width: 3rem;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 1);
+  margin-bottom: 0.6rem;
 }
 
 /* JUMBO HERO SECTION */
@@ -140,13 +156,13 @@ section {
   display: flex;
   flex-direction: column;
   height: 100%;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .upper_brandsSection {
   display: flex;
   justify-content: center;
-  flex: 0 0 70%;
+  flex: 0 0 65%;
   height: 100%;
   overflow: hidden;
   gap: 10%;
@@ -266,3 +282,87 @@ section {
   height: 100%;
   object-fit: contain;
 }
+
+/* ABOUT US SECTION */
+
+.aboutUsSectionWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.upper_aboutUsSection {
+  display: flex;
+  justify-content: flex-end;
+  flex: 0 0 65%;
+  height: 100%;
+}
+
+.lower_aboutUsSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 20%;
+}
+
+.description_aboutUsSection {
+  width: 80%;
+  padding-right: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.description_aboutUsSection > span {
+  font-size: 3rem;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.description_aboutUsSection > span > strong {
+  color: black;
+}
+
+.subDescriptionContainer_aboutUsSection {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1%;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.subDescriptionSeparatorLine_aboutUsSection {
+  height: 1px;
+  flex: 0 0 59%;
+  background-color: rgba(0, 0, 0, 1);
+  margin-top: 1rem;
+}
+
+.subDescription_aboutUsSection {
+  font-size: 1.2rem;
+  flex: 0 0 40%;
+}
+
+.button_aboutUsSection {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  font-weight: 500;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+  color: rgba(0, 0, 0, 0.8);
+  transition: 0.35s ease;
+}
+
+.button_aboutUsSection:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.15);
+  color: rgba(0, 0, 0, 1);
+  transition: 0.35s ease;
+  transform: scale(1.03);
+}
+
+/*  */

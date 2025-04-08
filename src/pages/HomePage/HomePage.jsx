@@ -2,15 +2,14 @@ import jumbo from "../../assets/img/jumbo.jpg";
 import jumboVideo from "../../assets/video/luxrent-jumbo.mp4";
 import styles from "./HomePage.module.css";
 import MenuSidebar from "../../components/layout/MenuSidebar/MenuSidebar";
-import { useRef, useState, useContext, useEffect } from "react";
+import { useRef, useState, useContext } from "react";
 import { GlobalContext } from "../../contexts/GlobalContext";
 
 export default function HomePage() {
   const videoRef = useRef(null);
   const [isVideoPaused, setIsVideoPaused] = useState(false);
-  const [isTimeoutPaused, setIsTimeoutPaused] = useState(false);
-  const { brands } = useContext(GlobalContext);
-  const [idSelectedBrand, setIdSelectedBrand] = useState(0);
+  const { brands, idSelectedBrand, setIdSelectedBrand, stopTimeout } =
+    useContext(GlobalContext);
   const selectedBrand = brands[idSelectedBrand];
 
   function toggleVideo() {
@@ -27,17 +26,8 @@ export default function HomePage() {
 
   function handleChangeBrand(index) {
     setIdSelectedBrand(index);
-    clearInterval(timeoutID);
-    setIsTimeoutPaused(true);
+    stopTimeout();
   }
-
-  const timeoutID = setTimeout(() => {
-    if (brands && brands.length > 0 && !isTimeoutPaused) {
-      setIdSelectedBrand((prev) => {
-        return (prev + 1) % brands.length;
-      });
-    }
-  }, 3000);
 
   return (
     <>
@@ -103,6 +93,9 @@ export default function HomePage() {
 
       <section>
         <div className={styles.brandsSectionWrapper}>
+          <div className={styles.titleSection}>
+            <span>LE NOSTRE MARCHE</span>
+          </div>
           <div className={styles.upper_brandsSection}>
             {brands && selectedBrand && (
               <>
@@ -152,6 +145,76 @@ export default function HomePage() {
                     </div>
                   );
                 })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ABOUT US SECTION */}
+
+      <section>
+        <div className={styles.aboutUsSectionWrapper}>
+          <div className={styles.titleSection}>
+            <span>CHI SIAMO</span>
+          </div>
+
+          <div className={styles.upper_aboutUsSection}>
+            <div className={styles.description_aboutUsSection}>
+              <span>
+                <strong>
+                  Luxrent nasce dalla passione per l'automobile di prestigio e
+                  l'eccellenza del servizio
+                </strong>
+                , offrendo esperienze su misura a bordo di vetture
+                straordinarie, con un'attenzione costante ai dettagli e alle
+                esigenze di ogni cliente.
+              </span>
+              <div className={styles.subDescriptionContainer_aboutUsSection}>
+                <div
+                  className={styles.subDescriptionSeparatorLine_aboutUsSection}
+                ></div>
+                <div className={styles.subDescription_aboutUsSection}>
+                  <span>
+                    Ogni noleggio è curato nei minimi dettagli, dalla selezione
+                    del modello alla consegna personalizzata. Luxrent garantisce
+                    puntualità, discrezione e massima flessibilità, trasformando
+                    ogni viaggio in un'esperienza esclusiva pensata per chi ama
+                    distinguersi.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={styles.lower_aboutUsSection}>
+            <div className={styles.button_aboutUsSection}>
+              <span>Scopri di più</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CUSTOMER SERVICE SECTION */}
+      <section>
+        <div className={styles.customerServiceSectionWrapper}>
+          <div className={styles.titleSection}>
+            <span>ASSISTENZA E SERVIZI</span>
+          </div>
+
+          <div className={styles.content_customerServiceSection}>
+            <div className={styles.image_customerServiceSection}></div>
+            <div className={styles.description_customerServiceSection}>
+              <div className={styles.titleDescription_customerServiceSection}>
+                <h2>Affidabilità senza compromessi</h2>
+              </div>
+              <div className={styles.contentDescription_customerServiceSection}>
+                <span>
+                  Offriamo un servizio clienti disponibile 24/7, con consulenti
+                  dedicati pronti a supportarti in ogni fase: dalla prenotazione
+                  alla riconsegna. Consegna a domicilio, gestione documentale
+                  veloce e assistenza personalizzata sono solo alcuni dei
+                  servizi pensati per garantire un'esperienza impeccabile.
+                </span>
+              </div>
             </div>
           </div>
         </div>
