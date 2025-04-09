@@ -24,18 +24,6 @@
   font-size: 1.2rem;
 }
 
-.logoContainer {
-  font-style: italic;
-  letter-spacing: 2px;
-  transform: scaleY(0.7);
-  cursor: pointer;
-}
-
-.logoContainer a {
-  text-decoration: none;
-  color: white;
-}
-
 .userWrapper {
   width: 50px;
 }

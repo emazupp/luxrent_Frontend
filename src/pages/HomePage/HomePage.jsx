@@ -4,6 +4,7 @@ import styles from "./HomePage.module.css";
 import MenuSidebar from "../../components/layout/MenuSidebar/MenuSidebar";
 import { useRef, useState, useContext } from "react";
 import { GlobalContext } from "../../contexts/GlobalContext";
+import Logo from "../../components/elements/Logo/Logo";
 
 export default function HomePage() {
   const videoRef = useRef(null);
@@ -220,6 +221,74 @@ export default function HomePage() {
                   veloce e assistenza personalizzata sono solo alcuni dei
                   servizi pensati per garantire un'esperienza impeccabile.
                 </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACT US SECTION */}
+      <section className={styles.halfSection}>
+        <div className={styles.contactUsSectionWrapper}>
+          <div className={styles.titleSection}>
+            <span>CONTATTACI</span>
+          </div>
+          <div className={styles.content_contactUsSection}>
+            <div className={styles.leftContent_contactUsSection}>
+              <div className={styles.leftContentWrapper_contactUsSection}>
+                <Logo dark={true} />
+                <span>
+                  Per richieste, preventivi o maggiori informazioni sui nostri
+                  servizi di noleggio, contattaci: il nostro team è a tua
+                  disposizione.
+                </span>
+                <button className={styles.contactButton_contactUsSection}>
+                  Contattaci
+                </button>
+              </div>
+            </div>
+            <div className={styles.rightContent_contactUsSection}>
+              <div className={styles.rightContentWrapper_contactUsSection}>
+                <div className={styles.rightContentAddress_contactUsSection}>
+                  <small>Indirizzo</small>
+                  <span className={styles.contactUsInfo_contactUsSection}>
+                    Via Roma 150, Milano 200019, Italia
+                  </span>
+                </div>
+
+                <div className={styles.rightContentBackToTop_contactUsSection}>
+                  <span>Ritorna in alto</span>
+                  <div className={styles.backToTop_contactUsSection}>
+                    <i class="fa-solid fa-arrow-up"></i>
+                  </div>
+                </div>
+
+                <div className={styles.rightContentContact_contactUsSection}>
+                  <small>Contattaci</small>
+                  <span className={styles.contactUsInfo_contactUsSection}>
+                    +39 02 12345678
+                  </span>
+                  <span className={styles.contactUsInfo_contactUsSection}>
+                    info@luxrent.it
+                  </span>
+                </div>
+
+                <div className={styles.rightContentSocial_contactUsSection}>
+                  <div
+                    className={
+                      styles.rightContentSocialWrapper_contactUsSection
+                    }
+                  >
+                    <small>Seguici</small>
+                    <div className={styles.socialIcons_contactUsSection}>
+                      <i className="fa-brands fa-instagram"></i>
+                      <i className="fa-brands fa-facebook"></i>
+                      <i className="fa-brands fa-twitter"></i>
+                      <i className="fa-brands fa-linkedin"></i>
+                      <i className="fa-brands fa-youtube"></i>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

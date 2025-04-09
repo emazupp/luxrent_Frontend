@@ -2,8 +2,13 @@ section {
   height: 100vh;
 }
 
+section.halfSection {
+  height: 50vh;
+}
+
 .titleSection {
   padding-left: 5rem;
+  font-size: 1.5rem;
   font-weight: 500;
   flex: 0 0 10%;
   display: flex;
@@ -16,7 +21,7 @@ section {
   width: 3rem;
   height: 1px;
   background-color: rgba(0, 0, 0, 1);
-  margin-bottom: 0.6rem;
+  margin-bottom: 1rem;
 }
 
 /* JUMBO HERO SECTION */
@@ -400,9 +405,9 @@ section {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-end;
+  justify-content: space-evenly;
   flex: 0 0 40%;
-  gap: 20px;
+  height: 80%;
 }
 
 .titleDescription_customerServiceSection {
@@ -420,6 +425,160 @@ section {
 }
 
 .contentDescription_customerServiceSection > span {
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: rgba(0, 0, 0, 0.7);
+}
+
+/* CONTACT US SECTION */
+
+.contactUsSectionWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.content_contactUsSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 85%;
+}
+
+.leftContent_contactUsSection {
+  flex: 0 0 30%;
+  height: 100%;
+}
+
+.rightContent_contactUsSection {
+  flex: 0 0 60%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.leftContentWrapper_contactUsSection {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5%;
+  height: 100%;
+}
+
+.contactButton_contactUsSection {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+  color: rgba(0, 0, 0, 0.8);
+  transition: 0.35s ease;
+}
+
+.contactButton_contactUsSection:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.15);
+  color: rgba(0, 0, 0, 1);
+  transition: 0.35s ease;
+  transform: scale(1.03);
+}
+.rightContentWrapper_contactUsSection {
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  height: 70%;
+}
+
+.rightContentAddress_contactUsSection,
+.rightContentContact_contactUsSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 0 0 50%;
+}
+
+.rightContentAddress_contactUsSection > small,
+.rightContentContact_contactUsSection > small,
+.rightContentSocialWrapper_contactUsSection > small {
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.contactUsInfo_contactUsSection {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: black;
+}
+
+.rightContentBackToTop_contactUsSection {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2rem;
+  flex: 0 0 50%;
+}
+
+.backToTop_contactUsSection {
+  border: 1px solid black;
+  border-radius: 50%;
+  height: 60px;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.backToTop_contactUsSection:hover {
+  border-color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.5);
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+.rightContentSocial_contactUsSection {
+  flex: 0 0 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.rightContentSocialWrapper_contactUsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.socialIcons_contactUsSection {
+  display: flex;
+  gap: 1rem;
+}
+
+.socialIcons_contactUsSection > i {
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  font-size: 1.5rem;
+  height: 40px;
+  aspect-ratio: 1;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 0.5rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.socialIcons_contactUsSection > i:hover {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.5);
+  transform: scale(1.05);
+  transition: all 0.2s ease;
 }
