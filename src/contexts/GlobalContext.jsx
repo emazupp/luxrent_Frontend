@@ -5,6 +5,7 @@ export const GlobalContext = createContext();
 export function GlobalProvider({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [brands, setBrands] = useState([]);
+  const [cars, setCars] = useState([]);
   const [isTimeoutPaused, setIsTimeoutPaused] = useState(false);
   const [idSelectedBrand, setIdSelectedBrand] = useState(0);
   const timeoutRef = useRef(null);
@@ -44,14 +45,21 @@ export function GlobalProvider({ children }) {
     setIsTimeoutPaused(true);
   };
 
-  async function fetchBrands() {
+  async function getBrands() {
     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/brands`);
     const data = await res.json();
     setBrands(data.results);
   }
 
+  async function getCars() {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/cars`);
+    const data = await res.json();
+    setCars(data.results);
+  }
+
   useEffect(() => {
-    fetchBrands();
+    getBrands();
+    getCars();
   }, []);
 
   useEffect(() => {
@@ -72,6 +80,7 @@ export function GlobalProvider({ children }) {
         setIdSelectedBrand,
         setIsTimeoutPaused,
         stopTimeout,
+        cars,
       }}
     >
       {children}

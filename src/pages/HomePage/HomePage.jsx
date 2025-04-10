@@ -9,9 +9,16 @@ import Logo from "../../components/elements/Logo/Logo";
 export default function HomePage() {
   const videoRef = useRef(null);
   const [isVideoPaused, setIsVideoPaused] = useState(false);
-  const { brands, idSelectedBrand, setIdSelectedBrand, stopTimeout } =
+  const { brands, idSelectedBrand, setIdSelectedBrand, stopTimeout, cars } =
     useContext(GlobalContext);
   const selectedBrand = brands[idSelectedBrand];
+
+  function handleScrollToTop() {
+    const jumboSection = document.getElementById("jumboSection");
+    if (jumboSection) {
+      jumboSection.scrollIntoView({ behavior: "smooth" });
+    }
+  }
 
   function toggleVideo() {
     const video = videoRef.current;
@@ -30,12 +37,19 @@ export default function HomePage() {
     stopTimeout();
   }
 
+  function handleJumboButton() {
+    const brandsSection = document.getElementById("brandsSection");
+    if (brandsSection) {
+      brandsSection.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
   return (
     <>
       <MenuSidebar />
 
       {/* JUMBO HERO SECTION */}
-      <section>
+      <section id="jumboSection">
         <div className={styles.jumboWrapper}>
           <video
             autoPlay
@@ -74,7 +88,10 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className={styles.jumboLowerButton}>
+            <div
+              onClick={handleJumboButton}
+              className={styles.jumboLowerButton}
+            >
               <span>Affitta ora</span>
               <i className="fa-solid fa-chevron-down"></i>
             </div>
@@ -91,8 +108,7 @@ export default function HomePage() {
       </section>
 
       {/* BRANDS SECTION */}
-
-      <section>
+      <section id="brandsSection">
         <div className={styles.brandsSectionWrapper}>
           <div className={styles.titleSection}>
             <span>LE NOSTRE MARCHE</span>
@@ -152,7 +168,6 @@ export default function HomePage() {
       </section>
 
       {/* ABOUT US SECTION */}
-
       <section>
         <div className={styles.aboutUsSectionWrapper}>
           <div className={styles.titleSection}>
@@ -258,7 +273,10 @@ export default function HomePage() {
 
                 <div className={styles.rightContentBackToTop_contactUsSection}>
                   <span>Ritorna in alto</span>
-                  <div className={styles.backToTop_contactUsSection}>
+                  <div
+                    onClick={handleScrollToTop}
+                    className={styles.backToTop_contactUsSection}
+                  >
                     <i class="fa-solid fa-arrow-up"></i>
                   </div>
                 </div>
@@ -293,6 +311,29 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* TOPCARS SECTION */}
+      <section>
+        {/* {cars &&
+          cars.map((car) => {
+            return (
+              <div key={car.id} className={styles.topCarsSection}>
+                <div className={styles.topCarsWrapper}>
+                  <img
+                    src={`${import.meta.env.VITE_BACKEND_URL}/${
+                      car.images[0].path
+                    }`}
+                    alt={car.model}
+                    className={styles.topCarImage}
+                  />
+                  <div className={styles.topCarInfo}>
+                    <h2>{car.model}</h2>
+                  </div>
+                </div>
+              </div>
+            );
+          })} */}
       </section>
     </>
   );

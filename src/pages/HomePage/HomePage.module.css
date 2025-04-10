@@ -122,6 +122,7 @@ section.halfSection {
   backdrop-filter: blur(10px);
   color: rgba(255, 255, 255, 0.8);
   gap: 1rem;
+  cursor: pointer;
 }
 
 .jumboLowerButton > span {
