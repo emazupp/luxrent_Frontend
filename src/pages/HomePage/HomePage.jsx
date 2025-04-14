@@ -5,6 +5,7 @@ import MenuSidebar from "../../components/layout/MenuSidebar/MenuSidebar";
 import { useRef, useState, useContext } from "react";
 import { GlobalContext } from "../../contexts/GlobalContext";
 import Logo from "../../components/elements/Logo/Logo";
+import CarSlider from "../../components/elements/CarSlider/CarSlider";
 
 export default function HomePage() {
   const videoRef = useRef(null);
@@ -314,8 +315,7 @@ export default function HomePage() {
       </section>
 
       {/* TOPCARS SECTION */}
-      <section>
-        {/* {cars &&
+      {/* {cars &&
           cars.map((car) => {
             return (
               <div key={car.id} className={styles.topCarsSection}>
@@ -334,6 +334,8 @@ export default function HomePage() {
               </div>
             );
           })} */}
+      <section>
+        <CarSlider />
       </section>
     </>
   );
