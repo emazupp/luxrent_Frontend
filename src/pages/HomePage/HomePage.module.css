@@ -2,6 +2,10 @@ section {
   height: 100vh;
 }
 
+.customContainer {
+  padding: 0 50px;
+}
+
 section.halfSection {
   height: 50vh;
 }
@@ -244,8 +248,8 @@ section.halfSection {
 
 .main_image_brandsSection {
   position: absolute;
-  height: 70%;
-  right: -15%;
+  height: 45vh;
+  right: -400px;
   bottom: 0;
 }
 
@@ -405,10 +409,9 @@ section.halfSection {
 .description_customerServiceSection {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-evenly;
+  justify-content: center;
   flex: 0 0 40%;
-  height: 80%;
+  height: 30vw;
 }
 
 .titleDescription_customerServiceSection {
@@ -417,7 +420,7 @@ section.halfSection {
 }
 
 .titleDescription_customerServiceSection > h2 {
-  font-size: 5rem;
+  font-size: calc(2vw + 5px);
   line-height: 70px;
 }
 
@@ -426,7 +429,7 @@ section.halfSection {
 }
 
 .contentDescription_customerServiceSection > span {
-  font-size: 2rem;
+  font-size: calc(1vw + 2px);
   color: rgba(0, 0, 0, 0.7);
 }
 

@@ -174,7 +174,6 @@ export default function HomePage() {
           <div className={styles.titleSection}>
             <span>CHI SIAMO</span>
           </div>
-
           <div className={styles.upper_aboutUsSection}>
             <div className={styles.description_aboutUsSection}>
               <span>
@@ -202,12 +201,18 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+
           <div className={styles.lower_aboutUsSection}>
             <div className={styles.button_aboutUsSection}>
               <span>Scopri di più</span>
             </div>
           </div>
         </div>
+      </section>
+
+      {/* CAR SLIDER SECTION */}
+      <section>
+        <CarSlider />
       </section>
 
       {/* CUSTOMER SERVICE SECTION */}
@@ -312,30 +317,6 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* TOPCARS SECTION */}
-      {/* {cars &&
-          cars.map((car) => {
-            return (
-              <div key={car.id} className={styles.topCarsSection}>
-                <div className={styles.topCarsWrapper}>
-                  <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}/${
-                      car.images[0].path
-                    }`}
-                    alt={car.model}
-                    className={styles.topCarImage}
-                  />
-                  <div className={styles.topCarInfo}>
-                    <h2>{car.model}</h2>
-                  </div>
-                </div>
-              </div>
-            );
-          })} */}
-      <section>
-        <CarSlider />
       </section>
     </>
   );

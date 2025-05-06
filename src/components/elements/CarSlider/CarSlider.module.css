@@ -23,7 +23,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: grey;
+  gap: 10%;
 }
 
 .slide.prevSlide {
@@ -39,18 +39,135 @@
 }
 
 .upperActiveSlide {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 5%;
+}
+
+.activeSlideModel {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.activeSlideLogo {
+  width: 150px;
+}
+
+.activeSlideLogo > img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.imageContainerActiveSlide {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+.imageContainerActiveSlide > img {
+  z-index: 2;
+  transform: scale(1.2);
 }
 
 .activeSlideTitle {
   display: flex;
-  font-size: 5rem;
   text-transform: uppercase;
   position: absolute;
+  top: -4%;
 }
 
-.upperActiveSlide > img {
+.activeSlideTitle > span {
+  font-size: 8rem;
+  font-weight: 700;
+  color: black;
+  z-index: 1;
+  transform: scaleX(1.1);
+  transform: scaleY(1.7);
+}
+
+.lowerActiveSlide {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 5%;
+  width: 100%;
+}
+
+.activeSlideDescription {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 0 0 20%;
+}
+
+.activeSlideDescription > span {
+  font-size: 1.2rem;
+  color: black;
+}
+
+.activeSlideInfo {
+  display: flex;
+  gap: 10%;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 40%;
+}
+
+.activeSlideInfo > div {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  flex: 0 0 25%;
+}
+
+.activeSlideInfo img {
+  width: 50px;
+}
+
+.activeSlideInfo span {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: black;
+}
+
+.separatorLine {
+  height: 1px;
+  width: 80%;
+  background-color: black;
+  opacity: 0.5;
+}
+
+.activeSlideButton {
+  flex: 0 0 20%;
+  display: flex;
+  align-items: center;
+}
+
+.detailsButton {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  font-weight: 500;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+  color: rgba(0, 0, 0, 0.8);
+  transition: 0.35s ease;
+  z-index: 2;
+}
+
+.detailsButton:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.15);
+  color: rgba(0, 0, 0, 1);
+  transition: 0.35s ease;
+  transform: scale(1.03);
 }
