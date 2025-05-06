@@ -5,6 +5,7 @@ import { GlobalContext } from "../../../contexts/GlobalContext";
 import calendarIcon from "../../../assets/img/calendar.png";
 import carEngineIcon from "../../../assets/img/car-engine.png";
 import powerIcon from "../../../assets/img/power.png";
+import Button from "../Button/Button";
 
 export default function CarSlider() {
   const { cars } = useContext(GlobalContext);
@@ -177,9 +178,7 @@ export default function CarSlider() {
                   </div>
                 </div>
                 <div className={styles.activeSlideButton}>
-                  <div className={styles.detailsButton}>
-                    <span>Vedi dettagli</span>
-                  </div>
+                  <Button>Vedi dettagli</Button>
                 </div>
               </div>
             </div>

@@ -1,0 +1,32 @@
+.searchPageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+.upperSearchPage {
+  display: flex;
+  margin-top: 70px;
+  width: 100%;
+  flex: 0 0 calc(15% - 70px);
+}
+
+.contentSearchPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  flex: 0 0 85%;
+}
+
+.upperFilterContainer {
+  display: flex;
+  flex: 0 0 90%;
+}
+
+.upperFilterButtonContainer {
+  flex: 0 0 10%;
+}

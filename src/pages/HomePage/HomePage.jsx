@@ -6,6 +6,8 @@ import { useRef, useState, useContext } from "react";
 import { GlobalContext } from "../../contexts/GlobalContext";
 import Logo from "../../components/elements/Logo/Logo";
 import CarSlider from "../../components/elements/CarSlider/CarSlider";
+import Footer from "../../components/layout/Footer/Footer";
+import Button from "../../components/elements/Button/Button";
 
 export default function HomePage() {
   const videoRef = useRef(null);
@@ -203,9 +205,7 @@ export default function HomePage() {
           </div>
 
           <div className={styles.lower_aboutUsSection}>
-            <div className={styles.button_aboutUsSection}>
-              <span>Scopri di più</span>
-            </div>
+            <Button>Scopri di più</Button>
           </div>
         </div>
       </section>
@@ -263,9 +263,7 @@ export default function HomePage() {
                   servizi di noleggio, contattaci: il nostro team è a tua
                   disposizione.
                 </span>
-                <button className={styles.contactButton_contactUsSection}>
-                  Contattaci
-                </button>
+                <Button>Contattaci</Button>
               </div>
             </div>
             <div className={styles.rightContent_contactUsSection}>
@@ -273,7 +271,7 @@ export default function HomePage() {
                 <div className={styles.rightContentAddress_contactUsSection}>
                   <small>Indirizzo</small>
                   <span className={styles.contactUsInfo_contactUsSection}>
-                    Via Roma 150, Milano 200019, Italia
+                    Via Roma 150, Milano 20019, Italia
                   </span>
                 </div>
 
@@ -318,6 +316,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <Footer />
     </>
   );
 }

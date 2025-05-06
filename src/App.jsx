@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePage";
 import "./assets/css/App.css";
 import DetailPage from "./pages/DetailPage";
-import SearchPage from "./pages/SearchPage";
+import SearchPage from "./pages//SearchPage/SearchPage";
 import DefaultLayout from "./layouts/DefaultLayout";
 import { GlobalProvider } from "./contexts/GlobalContext";
 
