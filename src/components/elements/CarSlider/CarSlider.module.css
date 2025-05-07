@@ -146,4 +146,5 @@
   flex: 0 0 20%;
   display: flex;
   align-items: center;
+  z-index: 2;
 }

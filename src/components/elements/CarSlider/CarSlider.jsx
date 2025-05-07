@@ -87,8 +87,6 @@ export default function CarSlider() {
     setShowedCars(cars.filter((car) => car.homepage === 1));
   }, [cars]);
 
-  console.log("showedCars", showedCars);
-
   useEffect(() => {
     setActiveSlideIndex(0);
     console.log("showedCars", showedCars);

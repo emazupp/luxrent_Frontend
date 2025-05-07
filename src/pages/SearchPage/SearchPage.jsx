@@ -1,51 +1,148 @@
 import styles from "./SearchPage.module.css";
 import MenuSidebar from "../../components/layout/MenuSidebar/MenuSidebar";
+import Button from "../../components/elements/Button/Button";
+import { GlobalContext } from "../../contexts/GlobalContext";
+import { useContext, useState } from "react";
 
 export default function SearchPage() {
+  const { cars, brands } = useContext(GlobalContext);
+  const [IDSelectedBrand, setIDSelectedBrand] = useState(1);
+
+  function handleBrandClick(currentBrandName) {
+    const newIDSelectedBrand = brands.find(
+      (brand) => currentBrandName === brand.name
+    ).id;
+    setIDSelectedBrand(newIDSelectedBrand);
+  }
+  console.log(cars);
+
+  function handleResetFilters() {}
+
   return (
     <>
       <MenuSidebar />
       <div className={styles.searchPageContainer}>
+        {/* UPPER FILTERS */}
         <div className={styles.upperSearchPage}>
           <div className={styles.upperFilterContainer}>
-            <div>
-              <select
-                className="form-select form-select-lg mb-3"
-                name="brand"
-                id="brand"
-              >
-                <option value="brand">Brand</option>
-                <option value="brand1">Brand 1</option>
-                <option value="brand2">Brand 2</option>
-                <option value="brand3">Brand 3</option>
-              </select>
-            </div>
-            <div>
-              <select
-                className="form-select form-select-lg mb-3"
-                name="model"
-                id="model"
-              >
-                <option value="brand">Modello</option>
-                <option value="brand1">Modello 1</option>
-                <option value="brand2">Modello 2</option>
-                <option value="brand3">Modello 3</option>
-              </select>
-            </div>
-            <div>
-              <label for="pickup_date">Data ritiro:</label>
-              <input type="date" id="pickup_date" name="pickup_date"></input>
-            </div>
-            <div>
-              <label for="return_date">Data ritiro:</label>
-              <input type="date" id="return_date" name="return_date"></input>
+            <div className={styles.upperFilters}>
+              <div className={styles.selectUpperFilter}>
+                <label htmlFor="brand">Brand</label>
+                <select
+                  name="brand"
+                  id="brand"
+                  onChange={(e) => handleBrandClick(e.target.value)}
+                >
+                  {brands.map((brand) => (
+                    <option key={brand.id} value={brand.name}>
+                      {brand.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className={styles.selectUpperFilter}>
+                <label htmlFor="model">Modello</label>
+                <select name="model" id="model">
+                  {cars
+                    .filter((car) => car.brand.id === IDSelectedBrand)
+                    .map((car) => (
+                      <option key={car.id} value={car.model}>
+                        {car.model}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              <div className={styles.inputUpperFilter}>
+                <label htmlFor="pickup_date">Data ritiro </label>
+                <input type="date" id="pickup_date" name="pickup_date"></input>
+              </div>
+
+              <div className={styles.inputUpperFilter}>
+                <label htmlFor="return_date">Data ritorno </label>
+                <input type="date" id="return_date" name="return_date"></input>
+              </div>
             </div>
           </div>
           <div className={styles.upperFilterButtonContainer}>
-            <button className="btn btn-primary">Cerca</button>
+            <Button>Cerca</Button>
           </div>
         </div>
-        <div className={styles.contentSearchPage}></div>
+        {/* SIDE FILTERS AND CONTENT */}
+        <div className={styles.contentSearchPage}>
+          <div className={styles.contentWrapper}>
+            {/* SIDE FILTERS */}
+            <div className={styles.sideFilterContainer}>
+              <div className={styles.sideFilterHeader}>
+                <span>Filtri</span>
+                <span
+                  className={styles.clearAllFilters}
+                  onClick={handleResetFilters}
+                >
+                  Cancella filtri
+                </span>
+              </div>
+              <div className={styles.separatorLine}></div>
+
+              <span>Prezzo</span>
+              <div className={styles.priceRangeContainer}>
+                <input
+                  type="range"
+                  min="0"
+                  max="1000"
+                  step="10"
+                  defaultValue="500"
+                ></input>
+                <span>€ 0</span>
+                <span>€ 1000</span>
+              </div>
+
+              <span>Trasmissione</span>
+              <div>
+                <button>Automatica</button>
+                <button>Manuale</button>
+              </div>
+
+              <span>Carburante</span>
+              <div>
+                <button>Diesel</button>
+                <button>Metano</button>
+                <button>Gpl</button>
+                <button>Ibrido</button>
+                <button>Elettrica</button>
+              </div>
+
+              <span>Posti</span>
+              <div>
+                <button>2 posti</button>
+                <button>4+ posti</button>
+              </div>
+
+              <span>Disponibilità</span>
+              <div>
+                <input type="checkbox" name="avaiable" id="avaiable" />
+                <label htmlFor="avaiable">Mostra solo disponibili</label>
+              </div>
+
+              <span>Tipologia</span>
+              <div>
+                <button>Utilitaria</button>
+                <button>Monovolume</button>
+                <button>SUV</button>
+                <button>Station Wagon</button>
+                <button>Coupè</button>
+                <button>Sportiva</button>
+              </div>
+            </div>
+
+            {/* CONTENTS */}
+            <div className={styles.contentContainer}>
+              <span>Risultati trovati</span>
+              <div className={styles.cardsContainer}></div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
