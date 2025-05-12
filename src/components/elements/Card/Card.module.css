@@ -1,0 +1,42 @@
+p {
+  margin: 0;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 30%;
+  border-radius: 30px;
+  padding: 1rem;
+  transition: 0.3s;
+  background-color: white;
+}
+
+.cardContainer:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  transform: scale(1.01);
+}
+
+.cardImageContainer > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.carBrand {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.carModel {
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.carPricePerDay {
+  margin-top: 0.5rem;
+  text-align: right;
+  font-weight: 600;
+  font-size: 1.2rem;
+}

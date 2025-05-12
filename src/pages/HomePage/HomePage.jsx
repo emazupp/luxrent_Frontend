@@ -281,7 +281,7 @@ export default function HomePage() {
                     onClick={handleScrollToTop}
                     className={styles.backToTop_contactUsSection}
                   >
-                    <i class="fa-solid fa-arrow-up"></i>
+                    <i className="fa-solid fa-arrow-up"></i>
                   </div>
                 </div>
 

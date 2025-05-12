@@ -2,19 +2,47 @@ import styles from "./SearchPage.module.css";
 import MenuSidebar from "../../components/layout/MenuSidebar/MenuSidebar";
 import Button from "../../components/elements/Button/Button";
 import { GlobalContext } from "../../contexts/GlobalContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import Card from "../../components/elements/Card/Card";
 
 export default function SearchPage() {
-  const { cars, brands } = useContext(GlobalContext);
+  const { cars, brands, categories } = useContext(GlobalContext);
   const [IDSelectedBrand, setIDSelectedBrand] = useState(1);
+  const [showedCars, setShowedCars] = useState([]);
+
+  useEffect(() => {
+    setShowedCars(cars);
+  }, [cars]);
 
   function handleBrandClick(currentBrandName) {
-    const newIDSelectedBrand = brands.find(
-      (brand) => currentBrandName === brand.name
-    ).id;
-    setIDSelectedBrand(newIDSelectedBrand);
+    if (currentBrandName === "reset") {
+      setIDSelectedBrand(0);
+      setShowedCars(cars);
+    } else {
+      const newIDSelectedBrand = brands.find(
+        (brand) => currentBrandName === brand.name
+      ).id;
+      setIDSelectedBrand(newIDSelectedBrand);
+      setShowedCars((prev) => {
+        return cars.filter((car) => car.brand.id === newIDSelectedBrand);
+      });
+    }
   }
-  console.log(cars);
+
+  function handleModelClick(currentModelName) {
+    if (currentModelName === "reset") {
+      setShowedCars((prev) => {
+        return cars.filter((car) => car.brand.id === IDSelectedBrand);
+      });
+    } else {
+      const newIDSelectedModel = cars.find(
+        (car) => currentModelName === car.model
+      ).id;
+      setShowedCars((prev) => {
+        return cars.filter((car) => car.id === newIDSelectedModel);
+      });
+    }
+  }
 
   function handleResetFilters() {}
 
@@ -33,6 +61,7 @@ export default function SearchPage() {
                   id="brand"
                   onChange={(e) => handleBrandClick(e.target.value)}
                 >
+                  <option value="reset">Seleziona brand</option>
                   {brands.map((brand) => (
                     <option key={brand.id} value={brand.name}>
                       {brand.name}
@@ -43,7 +72,12 @@ export default function SearchPage() {
 
               <div className={styles.selectUpperFilter}>
                 <label htmlFor="model">Modello</label>
-                <select name="model" id="model">
+                <select
+                  name="model"
+                  id="model"
+                  onChange={(e) => handleModelClick(e.target.value)}
+                >
+                  <option value="reset">Seleziona modello</option>
                   {cars
                     .filter((car) => car.brand.id === IDSelectedBrand)
                     .map((car) => (
@@ -127,19 +161,22 @@ export default function SearchPage() {
 
               <span>Tipologia</span>
               <div>
-                <button>Utilitaria</button>
-                <button>Monovolume</button>
-                <button>SUV</button>
-                <button>Station Wagon</button>
-                <button>Coupè</button>
-                <button>Sportiva</button>
+                {categories.map((category) => (
+                  <button key={category.id}>{category.name}</button>
+                ))}
               </div>
             </div>
 
             {/* CONTENTS */}
             <div className={styles.contentContainer}>
               <span>Risultati trovati</span>
-              <div className={styles.cardsContainer}></div>
+              <div className={styles.cardsContainer}>
+                {showedCars.length > 0 ? (
+                  showedCars.map((car) => <Card key={car.id} car={car} />)
+                ) : (
+                  <span>Nessun risultato trovato</span>
+                )}
+              </div>
             </div>
           </div>
         </div>
