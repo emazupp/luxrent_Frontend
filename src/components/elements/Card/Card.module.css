@@ -1,5 +1,5 @@
 p {
-  margin: 0;
+  margin: 0 !important;
 }
 
 .cardContainer {
@@ -10,6 +10,7 @@ p {
   padding: 1rem;
   transition: 0.3s;
   background-color: white;
+  height: fit-content;
 }
 
 .cardContainer:hover {
@@ -34,9 +35,12 @@ p {
   font-style: italic;
 }
 
-.carPricePerDay {
-  margin-top: 0.5rem;
+.carPricePerDayContainer {
+  margin-top: 2rem !important;
   text-align: right;
-  font-weight: 600;
-  font-size: 1.2rem;
+}
+
+.carPricePerDay {
+  font-size: 1.5rem;
+  font-weight: 700;
 }

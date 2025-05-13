@@ -27,8 +27,11 @@ export default function Card({ car }) {
         />
       </div>
       <div className={styles.cardFooter}>
-        <p className={styles.carPricePerDay}>
-          {Math.trunc(car.price_per_day)}€/giorno
+        <p className={styles.carPricePerDayContainer}>
+          <span className={styles.carPricePerDay}>
+            €{Math.trunc(car.price_per_day)}
+          </span>
+          /giorno
         </p>
       </div>
     </div>
