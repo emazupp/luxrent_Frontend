@@ -1,7 +1,55 @@
 .doubleRangeContainer {
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.graphicContainer {
   position: relative;
-  width: 50%;
-  height: 40px;
+  flex: 0 0 80%;
+}
+
+.graphicGhost,
+.graphicTrack {
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(0% 70%, 100% 0%, 100% 100%, 0% 100%);
+  background-color: #e7e7e7;
+  border-top-right-radius: 10%;
+}
+
+.graphicTrack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #acacac;
+  z-index: 2;
+  clip-path: polygon(0% 70%, 100% 0%, 100% 100%, 0% 100%);
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent var(--start),
+    black var(--start),
+    black var(--end),
+    transparent var(--end),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent var(--start),
+    black var(--start),
+    black var(--end),
+    transparent var(--end),
+    transparent 100%
+  );
+}
+
+.rangeSliderContainer {
+  position: relative;
+  flex: 0 0 20%;
 }
 
 .rangeSlider {
@@ -18,24 +66,26 @@
 .rangeSlider::-webkit-slider-thumb {
   pointer-events: all;
   -webkit-appearance: none;
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
-  background: #7e7e7e;
+  background: white;
   cursor: pointer;
   position: relative;
   z-index: 3;
+  border: 5px solid #7e7e7e;
 }
 
 .rangeSlider::-moz-range-thumb {
   pointer-events: all;
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
-  background: #7e7e7e;
+  background: white;
   cursor: pointer;
   position: relative;
   z-index: 3;
+  border: 5px solid #7e7e7e;
 }
 
 .sliderTrack {
@@ -61,13 +111,11 @@
 
 .thumbValue {
   position: absolute;
-  top: 25px;
+  top: 15px;
   transform: translateX(-50%);
-  background-color: #fff;
   padding: 2px 6px;
-  border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   white-space: nowrap;
   pointer-events: none;

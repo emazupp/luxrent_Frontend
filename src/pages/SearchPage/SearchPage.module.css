@@ -6,6 +6,8 @@
   width: 100%;
   height: 1px;
   background-color: #ccc;
+  opacity: 0.5;
+  margin: 10px 0;
 }
 
 .searchPageContainer {
@@ -13,6 +15,7 @@
   flex-direction: column;
   align-items: center;
   height: 100vh;
+  overflow: hidden;
 }
 
 .upperSearchPage {
@@ -118,30 +121,72 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: lightgray;
+  background-color: #f5f5f5;
   padding: var(--side-padding) var(--side-padding) 0 var(--side-padding);
   width: 100%;
   height: 100%;
   border-radius: 50px 50px 0 0;
 }
 
+.sideFiltersSection {
+  margin-top: 1rem;
+}
+
+.sideFiltersSection > span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
 .sideFilterContainer {
-  flex: 0 0 17%;
-  background-color: beige;
+  flex: 0 0 20%;
   width: 100%;
   height: 100%;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
+  background-color: white;
+  padding: 1.3rem;
+}
+
+.clearAllFilters {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #707070;
+  cursor: pointer;
+}
+
+.sideFilterHeader {
+  display: flex;
+  font-size: 1.3rem;
+
+  font-weight: 500;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.yearRangeContainer {
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  padding-top: 1rem;
+}
+
+.priceRangeContainer {
+  display: flex;
+  justify-content: center;
+  height: 150px;
 }
 
 .contentContainer {
-  flex: 0 0 80%;
+  flex: 0 0 77%;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 2%;
+  overflow-y: auto;
 }
 
 .contentContainer > span {
@@ -155,15 +200,13 @@
   justify-content: space-evenly;
   row-gap: 3%;
   column-gap: 1%;
-  background-color: white;
   border-radius: 30px 30px 0 0;
   width: 100%;
   height: 100%;
   padding-top: 1%;
 }
 
-.sideFilterHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.bottomSpaceCard {
+  height: 40%;
+  width: 100%;
 }
