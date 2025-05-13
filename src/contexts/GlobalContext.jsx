@@ -6,6 +6,7 @@ export function GlobalProvider({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [brands, setBrands] = useState([]);
   const [cars, setCars] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [isTimeoutPaused, setIsTimeoutPaused] = useState(false);
   const [idSelectedBrand, setIdSelectedBrand] = useState(0);
   const timeoutRef = useRef(null);
@@ -57,9 +58,18 @@ export function GlobalProvider({ children }) {
     setCars(data.results);
   }
 
+  async function getCategory() {
+    const res = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/categories`
+    );
+    const data = await res.json();
+    setCategories(data.results);
+  }
+
   useEffect(() => {
     getBrands();
     getCars();
+    getCategory();
   }, []);
 
   useEffect(() => {
@@ -76,6 +86,7 @@ export function GlobalProvider({ children }) {
         isSidebarOpen,
         toggleSidebar,
         brands,
+        categories,
         idSelectedBrand,
         setIdSelectedBrand,
         setIsTimeoutPaused,

@@ -5,6 +5,9 @@ import MenuSidebar from "../../components/layout/MenuSidebar/MenuSidebar";
 import { useRef, useState, useContext } from "react";
 import { GlobalContext } from "../../contexts/GlobalContext";
 import Logo from "../../components/elements/Logo/Logo";
+import CarSlider from "../../components/elements/CarSlider/CarSlider";
+import Footer from "../../components/layout/Footer/Footer";
+import Button from "../../components/elements/Button/Button";
 
 export default function HomePage() {
   const videoRef = useRef(null);
@@ -173,7 +176,6 @@ export default function HomePage() {
           <div className={styles.titleSection}>
             <span>CHI SIAMO</span>
           </div>
-
           <div className={styles.upper_aboutUsSection}>
             <div className={styles.description_aboutUsSection}>
               <span>
@@ -201,12 +203,16 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+
           <div className={styles.lower_aboutUsSection}>
-            <div className={styles.button_aboutUsSection}>
-              <span>Scopri di più</span>
-            </div>
+            <Button>Scopri di più</Button>
           </div>
         </div>
+      </section>
+
+      {/* CAR SLIDER SECTION */}
+      <section>
+        <CarSlider />
       </section>
 
       {/* CUSTOMER SERVICE SECTION */}
@@ -257,9 +263,7 @@ export default function HomePage() {
                   servizi di noleggio, contattaci: il nostro team è a tua
                   disposizione.
                 </span>
-                <button className={styles.contactButton_contactUsSection}>
-                  Contattaci
-                </button>
+                <Button>Contattaci</Button>
               </div>
             </div>
             <div className={styles.rightContent_contactUsSection}>
@@ -267,7 +271,7 @@ export default function HomePage() {
                 <div className={styles.rightContentAddress_contactUsSection}>
                   <small>Indirizzo</small>
                   <span className={styles.contactUsInfo_contactUsSection}>
-                    Via Roma 150, Milano 200019, Italia
+                    Via Roma 150, Milano 20019, Italia
                   </span>
                 </div>
 
@@ -277,7 +281,7 @@ export default function HomePage() {
                     onClick={handleScrollToTop}
                     className={styles.backToTop_contactUsSection}
                   >
-                    <i class="fa-solid fa-arrow-up"></i>
+                    <i className="fa-solid fa-arrow-up"></i>
                   </div>
                 </div>
 
@@ -313,28 +317,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TOPCARS SECTION */}
-      <section>
-        {/* {cars &&
-          cars.map((car) => {
-            return (
-              <div key={car.id} className={styles.topCarsSection}>
-                <div className={styles.topCarsWrapper}>
-                  <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}/${
-                      car.images[0].path
-                    }`}
-                    alt={car.model}
-                    className={styles.topCarImage}
-                  />
-                  <div className={styles.topCarInfo}>
-                    <h2>{car.model}</h2>
-                  </div>
-                </div>
-              </div>
-            );
-          })} */}
-      </section>
+      <Footer />
     </>
   );
 }
