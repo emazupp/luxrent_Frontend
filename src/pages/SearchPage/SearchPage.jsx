@@ -8,80 +8,91 @@ import DoubleSliderRange from "../../components/elements/DoubleSliderRange/Doubl
 
 export default function SearchPage() {
   const { cars, brands, categories } = useContext(GlobalContext);
-  const [IDSelectedBrand, setIDSelectedBrand] = useState(1);
-  const [showedCars, setShowedCars] = useState([]);
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(0);
-  const [minYear, setMinYear] = useState(0);
-  const [maxYear, setMaxYear] = useState(0);
-  const [sideFiltersData, setSideFiltersData] = useState({
+  const defaultFilters = {
+    carID: 0,
+    brandID: 0,
+    pickup_date: "",
+    return_date: "",
     price: { min: 0, max: 0 },
     year: { min: 0, max: 0 },
+    currentPrice: { min: 0, max: 0 },
+    currentYear: { min: 0, max: 0 },
     transmission: "",
     fuel: "",
     seats: "",
     available: false,
     category: "",
-  });
+  };
+
+  const [filtersData, setFiltersData] = useState(defaultFilters);
+
+  let showedCars =
+    cars.length > 0 && cars != undefined
+      ? cars.filter((car) => {
+          const isBrandMatch =
+            filtersData.brandID === 0 ||
+            car.brand.id === parseInt(filtersData.brandID);
+          const isCarMatch =
+            filtersData.carID === 0 || car.id === parseInt(filtersData.carID);
+
+          const isPriceMatch =
+            filtersData.currentPrice.min === 0 &&
+            filtersData.currentPrice.max === 0
+              ? true
+              : car.price_per_day >= filtersData.currentPrice.min &&
+                car.price_per_day <= filtersData.currentPrice.max;
+          const isYearMatch =
+            filtersData.currentYear.min === 0 &&
+            filtersData.currentYear.max === 0
+              ? true
+              : car.year >= filtersData.currentYear.min &&
+                car.year <= filtersData.currentYear.max;
+
+          return isBrandMatch && isCarMatch && isPriceMatch && isYearMatch;
+        })
+      : [];
 
   useEffect(() => {
-    setShowedCars(cars);
+    if (cars.length === 0) return;
+
+    const priceArray = cars.map((car) => car.price_per_day);
+    const yearArray = cars.map((car) => car.year);
+
+    const minPrice = Math.min(...priceArray);
+    const maxPrice = Math.max(...priceArray);
+    const minYear = Math.min(...yearArray);
+    const maxYear = Math.max(...yearArray);
+
+    setFiltersData((prev) => ({
+      ...prev,
+      price: { min: minPrice, max: maxPrice },
+      year: { min: minYear, max: maxYear },
+    }));
   }, [cars]);
 
-  useEffect(() => {
-    getMinMaxPrice();
-    getMinMaxYear();
-  }, [showedCars]);
+  function handleUpdateFiltersData(e) {
+    let currentValue =
+      e.target.name === "carID" || e.target.name === "brandID"
+        ? parseInt(e.target.value)
+        : e.target.value;
 
-  function getMinMaxPrice() {
-    const allPricesArray = [];
-    cars.forEach((car) => {
-      allPricesArray.push(car.price_per_day);
-    });
-    setMinPrice(Math.min(...allPricesArray));
-    setMaxPrice(Math.max(...allPricesArray));
-  }
-
-  function getMinMaxYear() {
-    const allYearsArray = [];
-    cars.forEach((car) => {
-      allYearsArray.push(car.year);
-    });
-    setMinYear(Math.min(...allYearsArray));
-    setMaxYear(Math.max(...allYearsArray));
-  }
-
-  function handleBrandClick(currentBrandName) {
-    if (currentBrandName === "reset") {
-      setIDSelectedBrand(0);
-      setShowedCars(cars);
+    if (e.target.name === "brandID" && e.target.value !== filtersData.brandID) {
+      setFiltersData({
+        ...filtersData,
+        brandID: currentValue,
+        carID: 0,
+      });
     } else {
-      const newIDSelectedBrand = brands.find(
-        (brand) => currentBrandName === brand.name
-      ).id;
-      setIDSelectedBrand(newIDSelectedBrand);
-      setShowedCars((prev) => {
-        return cars.filter((car) => car.brand.id === newIDSelectedBrand);
+      setFiltersData({
+        ...filtersData,
+        [e.target.name]: currentValue,
       });
     }
   }
 
-  function handleModelClick(currentModelName) {
-    if (currentModelName === "reset") {
-      setShowedCars((prev) => {
-        return cars.filter((car) => car.brand.id === IDSelectedBrand);
-      });
-    } else {
-      const newIDSelectedModel = cars.find(
-        (car) => currentModelName === car.model
-      ).id;
-      setShowedCars((prev) => {
-        return cars.filter((car) => car.id === newIDSelectedModel);
-      });
-    }
+  function handleResetFilters() {
+    setFiltersData(defaultFilters);
   }
-
-  function handleResetFilters() {}
 
   return (
     <>
@@ -95,13 +106,16 @@ export default function SearchPage() {
                 <div className={styles.selectUpperFilter}>
                   <label htmlFor="brand">Brand</label>
                   <select
-                    name="brand"
+                    name="brandID"
                     id="brand"
-                    onChange={(e) => handleBrandClick(e.target.value)}
+                    value={filtersData.brandID}
+                    onChange={(e) => {
+                      handleUpdateFiltersData(e);
+                    }}
                   >
-                    <option value="reset">Seleziona brand</option>
+                    <option value="0">Qualsiasi</option>
                     {brands.map((brand) => (
-                      <option key={brand.id} value={brand.name}>
+                      <option key={brand.id} value={brand.id}>
                         {brand.name}
                       </option>
                     ))}
@@ -111,18 +125,24 @@ export default function SearchPage() {
                 <div className={styles.selectUpperFilter}>
                   <label htmlFor="model">Modello</label>
                   <select
-                    name="model"
+                    name="carID"
                     id="model"
-                    onChange={(e) => handleModelClick(e.target.value)}
+                    value={filtersData.carID}
+                    disabled={filtersData.brandID === 0}
+                    onChange={(e) => handleUpdateFiltersData(e)}
                   >
-                    <option value="reset">Seleziona modello</option>
-                    {cars
-                      .filter((car) => car.brand.id === IDSelectedBrand)
-                      .map((car) => (
-                        <option key={car.id} value={car.model}>
-                          {car.model}
-                        </option>
-                      ))}
+                    <option value="0">Qualsiasi</option>
+                    {filtersData.brandID != 0 &&
+                      cars
+                        .filter(
+                          (car) =>
+                            car.brand.id === parseInt(filtersData.brandID)
+                        )
+                        .map((car) => (
+                          <option key={car.id} value={car.id}>
+                            {car.model}
+                          </option>
+                        ))}
                   </select>
                 </div>
 
@@ -132,6 +152,8 @@ export default function SearchPage() {
                     type="date"
                     id="pickup_date"
                     name="pickup_date"
+                    value={filtersData.pickup_date}
+                    onChange={handleUpdateFiltersData}
                   ></input>
                 </div>
 
@@ -141,95 +163,95 @@ export default function SearchPage() {
                     type="date"
                     id="return_date"
                     name="return_date"
+                    value={filtersData.return_date}
+                    onChange={handleUpdateFiltersData}
                   ></input>
                 </div>
               </div>
-            </div>
-            <div className={styles.upperFilterButtonContainer}>
-              <Button>Cerca</Button>
             </div>
           </div>
           {/* SIDE FILTERS AND CONTENT */}
           <div className={styles.contentSearchPage}>
             <div className={styles.contentWrapper}>
               {/* SIDE FILTERS */}
-              <form action="">
-                <div className={styles.sideFilterContainer}>
-                  <div className={styles.sideFilterHeader}>
-                    <span>Filtri</span>
-                    <span
-                      className={styles.clearAllFilters}
-                      onClick={handleResetFilters}
-                    >
-                      Cancella filtri
-                    </span>
-                  </div>
-                  <div className={styles.separatorLine}></div>
 
-                  <div className={styles.sideFiltersSection}>
-                    <span>Prezzo</span>
-                    <div className={styles.priceRangeContainer}>
-                      <DoubleSliderRange
-                        min={minPrice}
-                        max={maxPrice}
-                        graphic={true}
-                      />
-                    </div>
-                  </div>
+              <div className={styles.sideFilterContainer}>
+                <div className={styles.sideFilterHeader}>
+                  <span>Filtri</span>
+                  <span
+                    className={styles.clearAllFilters}
+                    onClick={handleResetFilters}
+                  >
+                    Cancella filtri
+                  </span>
+                </div>
+                <div className={styles.separatorLine}></div>
 
-                  <div className={styles.sideFiltersSection}>
-                    <span>Anno</span>
-                    <div className={styles.yearRangeContainer}>
-                      <DoubleSliderRange
-                        min={minYear}
-                        max={maxYear}
-                        graphic={false}
-                      />
-                    </div>
-                  </div>
-
-                  <div className={styles.sideFiltersSection}>
-                    <span>Trasmissione</span>
-                    <div>
-                      <button>Automatica</button>
-                      <button>Manuale</button>
-                    </div>
-                  </div>
-                  <div className={styles.sideFiltersSection}>
-                    <span>Carburante</span>
-                    <div>
-                      <button>Diesel</button>
-                      <button>Metano</button>
-                      <button>Gpl</button>
-                      <button>Ibrido</button>
-                      <button>Elettrica</button>
-                    </div>
-                  </div>
-                  <div className={styles.sideFiltersSection}>
-                    <span>Posti</span>
-                    <div>
-                      <button>2 posti</button>
-                      <button>4+ posti</button>
-                    </div>
-                  </div>
-                  <div className={styles.sideFiltersSection}>
-                    <span>Disponibilità</span>
-                    <div>
-                      <input type="checkbox" name="avaiable" id="avaiable" />
-                      <label htmlFor="avaiable">Mostra solo disponibili</label>
-                    </div>
-                  </div>
-
-                  <div className={styles.sideFiltersSection}>
-                    <span>Tipologia</span>
-                    <div>
-                      {categories.map((category) => (
-                        <button key={category.id}>{category.name}</button>
-                      ))}
-                    </div>
+                <div className={styles.sideFiltersSection}>
+                  <span>Prezzo</span>
+                  <div className={styles.priceRangeContainer}>
+                    <DoubleSliderRange
+                      min={filtersData.price.min}
+                      max={filtersData.price.max}
+                      setFiltersData={setFiltersData}
+                      graphic={true}
+                    />
                   </div>
                 </div>
-              </form>
+
+                <div className={styles.sideFiltersSection}>
+                  <span>Anno</span>
+                  <div className={styles.yearRangeContainer}>
+                    <DoubleSliderRange
+                      min={filtersData.year.min}
+                      max={filtersData.year.max}
+                      setFiltersData={setFiltersData}
+                      graphic={false}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.sideFiltersSection}>
+                  <span>Trasmissione</span>
+                  <div>
+                    <button>Automatica</button>
+                    <button>Manuale</button>
+                  </div>
+                </div>
+                <div className={styles.sideFiltersSection}>
+                  <span>Carburante</span>
+                  <div>
+                    <button>Diesel</button>
+                    <button>Metano</button>
+                    <button>Gpl</button>
+                    <button>Ibrido</button>
+                    <button>Elettrica</button>
+                  </div>
+                </div>
+                <div className={styles.sideFiltersSection}>
+                  <span>Posti</span>
+                  <div>
+                    <button>2 posti</button>
+                    <button>4+ posti</button>
+                  </div>
+                </div>
+                <div className={styles.sideFiltersSection}>
+                  <span>Disponibilità</span>
+                  <div>
+                    <input type="checkbox" name="avaiable" id="avaiable" />
+                    <label htmlFor="avaiable">Mostra solo disponibili</label>
+                  </div>
+                </div>
+
+                <div className={styles.sideFiltersSection}>
+                  <span>Tipologia</span>
+                  <div>
+                    {categories.map((category) => (
+                      <button key={category.id}>{category.name}</button>
+                    ))}
+                  </div>
+                </div>
+              </div>
 
               {/* CONTENTS */}
               <div className={styles.contentContainer}>

@@ -20,6 +20,7 @@
 
 .upperSearchPage {
   display: flex;
+  justify-content: center;
   margin-top: 70px;
   width: 100%;
   padding: 0 var(--side-padding);
