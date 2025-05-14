@@ -15,25 +15,31 @@ export default function Card({ car }) {
       className={styles.cardContainer}
       onClick={() => handleCardClick(car.id)}
     >
-      <div className={styles.cardHeader}>
-        <p className={styles.carBrand}>{car.brand.name}</p>
-        <p className={styles.carModel}>{car.model}</p>
-      </div>
-      <div className={styles.cardImageContainer}>
-        <img
-          src={`${import.meta.env.VITE_BACKEND_URL}/${primaryImagePath}`}
-          alt={car.model}
-          className={styles.cardImage}
-        />
-      </div>
-      <div className={styles.cardFooter}>
-        <p className={styles.carPricePerDayContainer}>
-          <span className={styles.carPricePerDay}>
-            €{Math.trunc(car.price_per_day)}
-          </span>
-          /giorno
-        </p>
-      </div>
+      {car != undefined || car != null ? (
+        <>
+          <div className={styles.cardHeader}>
+            <p className={styles.carBrand}>{car.brand.name}</p>
+            <p className={styles.carModel}>{car.model}</p>
+          </div>
+          <div className={styles.cardImageContainer}>
+            <img
+              src={`${import.meta.env.VITE_BACKEND_URL}/${primaryImagePath}`}
+              alt={car.model}
+              className={styles.cardImage}
+            />
+          </div>
+          <div className={styles.cardFooter}>
+            <p className={styles.carPricePerDayContainer}>
+              <span className={styles.carPricePerDay}>
+                €{Math.trunc(car.price_per_day)}
+              </span>
+              /giorno
+            </p>
+          </div>
+        </>
+      ) : (
+        <div>loading...</div>
+      )}
     </div>
   );
 }

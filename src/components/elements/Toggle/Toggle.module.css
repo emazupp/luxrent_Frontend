@@ -1,0 +1,21 @@
+.toggle > input {
+  display: none;
+}
+
+.toggle > label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: fit-content;
+  padding: 20px 10px;
+  height: 25px;
+  background-color: none;
+  border-radius: 15px;
+  position: relative;
+  border: 1px solid #ddd;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.toggle > input:checked + label {
+  background-color: rgba(86, 189, 248, 0.555);
+}

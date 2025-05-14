@@ -211,3 +211,9 @@
   height: 40%;
   width: 100%;
 }
+
+.toggleContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}

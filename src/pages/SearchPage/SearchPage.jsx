@@ -1,6 +1,6 @@
 import styles from "./SearchPage.module.css";
 import MenuSidebar from "../../components/layout/MenuSidebar/MenuSidebar";
-import Button from "../../components/elements/Button/Button";
+import Toggle from "../../components/elements/Toggle/Toggle";
 import { GlobalContext } from "../../contexts/GlobalContext";
 import { useContext, useEffect, useState } from "react";
 import Card from "../../components/elements/Card/Card";
@@ -52,7 +52,7 @@ export default function SearchPage() {
         })
       : [];
 
-  useEffect(() => {
+  function initFiltersData() {
     if (cars.length === 0) return;
 
     const priceArray = cars.map((car) => car.price_per_day);
@@ -68,6 +68,10 @@ export default function SearchPage() {
       price: { min: minPrice, max: maxPrice },
       year: { min: minYear, max: maxYear },
     }));
+  }
+
+  useEffect(() => {
+    initFiltersData();
   }, [cars]);
 
   function handleUpdateFiltersData(e) {
@@ -92,6 +96,7 @@ export default function SearchPage() {
 
   function handleResetFilters() {
     setFiltersData(defaultFilters);
+    initFiltersData();
   }
 
   return (
@@ -213,41 +218,43 @@ export default function SearchPage() {
 
                 <div className={styles.sideFiltersSection}>
                   <span>Trasmissione</span>
-                  <div>
-                    <button>Automatica</button>
-                    <button>Manuale</button>
+                  <div className={styles.toggleContainer}>
+                    <Toggle id="automatic">Automatica</Toggle>
+                    <Toggle id="manual">Manuale</Toggle>
                   </div>
                 </div>
                 <div className={styles.sideFiltersSection}>
                   <span>Carburante</span>
-                  <div>
-                    <button>Diesel</button>
-                    <button>Metano</button>
-                    <button>Gpl</button>
-                    <button>Ibrido</button>
-                    <button>Elettrica</button>
+                  <div className={styles.toggleContainer}>
+                    <Toggle id="Benzina">Benzina</Toggle>
+                    <Toggle id="diesel">Diesel</Toggle>
+                    <Toggle id="metano">Metano</Toggle>
+                    <Toggle id="gpl">Gpl</Toggle>
+                    <Toggle id="ibrido">Ibrido</Toggle>
+                    <Toggle id="elettrica">Elettrica</Toggle>
                   </div>
                 </div>
                 <div className={styles.sideFiltersSection}>
                   <span>Posti</span>
-                  <div>
-                    <button>2 posti</button>
-                    <button>4+ posti</button>
+                  <div className={styles.toggleContainer}>
+                    <Toggle id="seats2">2 posti</Toggle>
+                    <Toggle id="seats4">4+ posti</Toggle>
                   </div>
                 </div>
                 <div className={styles.sideFiltersSection}>
                   <span>Disponibilità</span>
-                  <div>
-                    <input type="checkbox" name="avaiable" id="avaiable" />
-                    <label htmlFor="avaiable">Mostra solo disponibili</label>
+                  <div className={styles.toggleContainer}>
+                    <Toggle id="avaiable">Solo disponibili</Toggle>
                   </div>
                 </div>
 
                 <div className={styles.sideFiltersSection}>
                   <span>Tipologia</span>
-                  <div>
+                  <div className={styles.toggleContainer}>
                     {categories.map((category) => (
-                      <button key={category.id}>{category.name}</button>
+                      <Toggle key={category.id} id={category.id}>
+                        {category.name}
+                      </Toggle>
                     ))}
                   </div>
                 </div>
@@ -255,7 +262,13 @@ export default function SearchPage() {
 
               {/* CONTENTS */}
               <div className={styles.contentContainer}>
-                <span>Risultati trovati</span>
+                <span>
+                  Risultati trovati (
+                  {showedCars.length === 1
+                    ? showedCars.length + " veicolo"
+                    : showedCars.length + " veicoli"}
+                  )
+                </span>
                 <div className={styles.cardsContainer}>
                   {showedCars.length > 0 ? (
                     showedCars.map((car) => <Card key={car.id} car={car} />)
