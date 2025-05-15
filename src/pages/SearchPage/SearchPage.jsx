@@ -18,11 +18,22 @@ export default function SearchPage() {
     currentPrice: { min: 0, max: 0 },
     currentYear: { min: 0, max: 0 },
     transmission: "",
-    fuel: "",
+    fuel_type: "",
     seats: "",
-    available: false,
+    is_available: "",
     category: "",
   };
+
+  const transmissionTypes = ["Manuale", "Automatica"];
+  const fuelTypes = [
+    "Benzina",
+    "Diesel",
+    "Metano",
+    "Gpl",
+    "Ibrido",
+    "Elettrica",
+  ];
+  const seatsTypes = ["2 posti", "4+ posti"];
 
   const [filtersData, setFiltersData] = useState(defaultFilters);
 
@@ -47,8 +58,34 @@ export default function SearchPage() {
               ? true
               : car.year >= filtersData.currentYear.min &&
                 car.year <= filtersData.currentYear.max;
+          const isTransmissionMatch =
+            filtersData.transmission === "" ||
+            car.transmission === filtersData.transmission;
+          const isFuelTypeMatch =
+            filtersData.fuel_type === "" ||
+            car.fuel_type === filtersData.fuel_type;
+          const isSeatsMatch =
+            filtersData.seats === "" ||
+            car.seats >= parseInt(filtersData.seats[0]);
+          const isAvailableMatch =
+            filtersData.is_available === "" ||
+            (filtersData.is_available === "true" && car.is_available);
 
-          return isBrandMatch && isCarMatch && isPriceMatch && isYearMatch;
+          const isCategoryMatch =
+            filtersData.category === "" ||
+            car.category.name === filtersData.category;
+
+          return (
+            isBrandMatch &&
+            isCarMatch &&
+            isPriceMatch &&
+            isYearMatch &&
+            isTransmissionMatch &&
+            isFuelTypeMatch &&
+            isSeatsMatch &&
+            isAvailableMatch &&
+            isCategoryMatch
+          );
         })
       : [];
 
@@ -158,6 +195,7 @@ export default function SearchPage() {
                     id="pickup_date"
                     name="pickup_date"
                     value={filtersData.pickup_date}
+                    min={new Date().toISOString().split("T")[0]}
                     onChange={handleUpdateFiltersData}
                   ></input>
                 </div>
@@ -168,6 +206,11 @@ export default function SearchPage() {
                     type="date"
                     id="return_date"
                     name="return_date"
+                    disabled={
+                      filtersData.pickup_date === "" ||
+                      filtersData.pickup_date === undefined
+                    }
+                    min={filtersData.pickup_date}
                     value={filtersData.return_date}
                     onChange={handleUpdateFiltersData}
                   ></input>
@@ -219,32 +262,74 @@ export default function SearchPage() {
                 <div className={styles.sideFiltersSection}>
                   <span>Trasmissione</span>
                   <div className={styles.toggleContainer}>
-                    <Toggle id="automatic">Automatica</Toggle>
-                    <Toggle id="manual">Manuale</Toggle>
+                    {transmissionTypes.map((transmission) => (
+                      <Toggle
+                        key={transmission}
+                        checked={filtersData.transmission === transmission}
+                        onChange={(checked) =>
+                          setFiltersData((prev) => ({
+                            ...prev,
+                            transmission: checked ? transmission : "",
+                          }))
+                        }
+                      >
+                        {transmission}
+                      </Toggle>
+                    ))}
                   </div>
                 </div>
                 <div className={styles.sideFiltersSection}>
                   <span>Carburante</span>
                   <div className={styles.toggleContainer}>
-                    <Toggle id="Benzina">Benzina</Toggle>
-                    <Toggle id="diesel">Diesel</Toggle>
-                    <Toggle id="metano">Metano</Toggle>
-                    <Toggle id="gpl">Gpl</Toggle>
-                    <Toggle id="ibrido">Ibrido</Toggle>
-                    <Toggle id="elettrica">Elettrica</Toggle>
+                    {fuelTypes.map((fuel_type) => (
+                      <Toggle
+                        key={fuel_type}
+                        checked={filtersData.fuel_type === fuel_type}
+                        onChange={(checked) =>
+                          setFiltersData((prev) => ({
+                            ...prev,
+                            fuel_type: checked ? fuel_type : "",
+                          }))
+                        }
+                      >
+                        {fuel_type}
+                      </Toggle>
+                    ))}
                   </div>
                 </div>
                 <div className={styles.sideFiltersSection}>
                   <span>Posti</span>
                   <div className={styles.toggleContainer}>
-                    <Toggle id="seats2">2 posti</Toggle>
-                    <Toggle id="seats4">4+ posti</Toggle>
+                    {seatsTypes.map((seats) => (
+                      <Toggle
+                        key={seats}
+                        checked={filtersData.seats === seats}
+                        onChange={(checked) =>
+                          setFiltersData((prev) => ({
+                            ...prev,
+                            seats: checked ? seats : "",
+                          }))
+                        }
+                      >
+                        {seats}
+                      </Toggle>
+                    ))}
                   </div>
                 </div>
                 <div className={styles.sideFiltersSection}>
                   <span>Disponibilità</span>
                   <div className={styles.toggleContainer}>
-                    <Toggle id="avaiable">Solo disponibili</Toggle>
+                    <Toggle
+                      checked={filtersData.is_available}
+                      onChange={(checked) =>
+                        setFiltersData((prev) => ({
+                          ...prev,
+                          is_available: checked ? "true" : "",
+                        }))
+                      }
+                    >
+                      Mostra solo disponibili
+                    </Toggle>
                   </div>
                 </div>
 
@@ -252,7 +337,16 @@ export default function SearchPage() {
                   <span>Tipologia</span>
                   <div className={styles.toggleContainer}>
                     {categories.map((category) => (
-                      <Toggle key={category.id} id={category.id}>
+                      <Toggle
+                        key={category.id}
+                        checked={filtersData.category === category.name}
+                        onChange={(checked) =>
+                          setFiltersData((prev) => ({
+                            ...prev,
+                            category: checked ? category.name : "",
+                          }))
+                        }
+                      >
                         {category.name}
                       </Toggle>
                     ))}
@@ -283,7 +377,12 @@ export default function SearchPage() {
         </div>
       ) : (
         <div className={styles.loadingContainer}>
-          <span>Caricamento...</span>
+          <div
+            className={`spinner-border ${styles.spinnerBootstrap}`}
+            role="status"
+          >
+            <span className="visually-hidden">Loading...</span>
+          </div>
         </div>
       )}
     </>

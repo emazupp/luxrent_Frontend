@@ -1,10 +1,15 @@
 import styles from "./Toggle.module.css";
 
-export default function Toggle({ children, id }) {
+export default function Toggle({ children, checked, onChange }) {
   return (
     <div className={styles.toggle}>
-      <input type="checkbox" id={id} />
-      <label htmlFor={id}>
+      <input
+        id={children}
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+      />
+      <label htmlFor={children}>
         <span className={styles.slider}>{children}</span>
       </label>
     </div>
