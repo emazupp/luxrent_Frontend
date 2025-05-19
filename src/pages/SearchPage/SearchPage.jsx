@@ -43,6 +43,7 @@ export default function SearchPage() {
           const isBrandMatch =
             filtersData.brandID === 0 ||
             car.brand.id === parseInt(filtersData.brandID);
+
           const isCarMatch =
             filtersData.carID === 0 || car.id === parseInt(filtersData.carID);
 
@@ -52,21 +53,28 @@ export default function SearchPage() {
               ? true
               : car.price_per_day >= filtersData.currentPrice.min &&
                 car.price_per_day <= filtersData.currentPrice.max;
+
           const isYearMatch =
             filtersData.currentYear.min === 0 &&
             filtersData.currentYear.max === 0
               ? true
               : car.year >= filtersData.currentYear.min &&
                 car.year <= filtersData.currentYear.max;
+
           const isTransmissionMatch =
             filtersData.transmission === "" ||
             car.transmission === filtersData.transmission;
+
           const isFuelTypeMatch =
             filtersData.fuel_type === "" ||
             car.fuel_type === filtersData.fuel_type;
+
           const isSeatsMatch =
             filtersData.seats === "" ||
-            car.seats >= parseInt(filtersData.seats[0]);
+            (parseInt(filtersData.seats[0]) <= 2
+              ? car.seats <= parseInt(filtersData.seats[0])
+              : car.seats >= parseInt(filtersData.seats[0]));
+
           const isAvailableMatch =
             filtersData.is_available === "" ||
             (filtersData.is_available === "true" && car.is_available);

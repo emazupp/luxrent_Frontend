@@ -9,194 +9,132 @@ import Button from "../Button/Button";
 
 export default function CarSlider() {
   const { cars } = useContext(GlobalContext);
-  const [activeSlideIndex, setActiveSlideIndex] = useState(null);
-  const [prevSlideIndex, setPrevSlideIndex] = useState(null);
-  const [nextSlideIndex, setNextSlideIndex] = useState(null);
-  const prevSlideRef = useRef(null);
-  const nextSlideRef = useRef(null);
-  const activeSlideRef = useRef(null);
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [showedCars, setShowedCars] = useState([]);
+  const activeSlideRef = useRef(null);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   function mod(a, b) {
     return ((a % b) + b) % b;
   }
 
-  function handleChangeSlide(index, direction) {
-    if (direction === "prev") {
-      gsap.to(prevSlideRef.current, {
-        duration: 0.5,
-        x: "100%",
-        y: "5%",
-        ease: "power2.in",
-        onComplete: () => {
-          setActiveSlideIndex(mod(index, showedCars.length));
-          gsap.set(prevSlideRef.current, { x: 0, y: 0, opacity: 1 });
-        },
-      });
-      gsap.to(activeSlideRef.current, {
-        duration: 0.5,
-        x: "100%",
-        y: "-5%",
-        ease: "power2.in",
-        onComplete: () => {
-          gsap.set(activeSlideRef.current, { x: 0, y: 0, opacity: 1 });
-        },
-      });
-      gsap.to(nextSlideRef.current, {
-        duration: 0.5,
-        x: "100%",
-        y: "5%",
-        ease: "power2.in",
-        onComplete: () => {
-          gsap.set(nextSlideRef.current, { x: 0, y: 0, opacity: 1 });
-        },
-      });
-    } else if (direction === "next") {
-      gsap.to(nextSlideRef.current, {
-        duration: 0.5,
-        x: "-100%",
-        y: "5%",
-        ease: "power2.in",
-        onComplete: () => {
-          setActiveSlideIndex(mod(index, showedCars.length));
-          gsap.set(nextSlideRef.current, { x: 0, y: 0, opacity: 1 });
-        },
-      });
-      gsap.to(activeSlideRef.current, {
-        duration: 0.5,
-        x: "-100%",
-        y: "5%",
-        ease: "power2.in",
-        onComplete: () => {
-          gsap.set(activeSlideRef.current, { x: 0, y: 0, opacity: 1 });
-        },
-      });
-      gsap.to(prevSlideRef.current, {
-        duration: 0.5,
-        x: "-100%",
-        y: "5%",
-        ease: "power2.in",
-        onComplete: () => {
-          gsap.set(prevSlideRef.current, { x: 0, y: 0, opacity: 1 });
-        },
-      });
-    }
+  function handleChangeSlide(newIndex, direction) {
+    if (isAnimating || showedCars.length === 0) return;
+    setIsAnimating(true);
+
+    const toX = direction === "next" ? "-100%" : "100%";
+    const fromX = direction === "next" ? "100%" : "-100%";
+
+    // Slide out
+    gsap.to(activeSlideRef.current, {
+      x: toX,
+      opacity: 0,
+      duration: 0.4,
+      ease: "power2.in",
+      onComplete: () => {
+        setActiveSlideIndex(mod(newIndex, showedCars.length));
+
+        // Slide in
+        gsap.fromTo(
+          activeSlideRef.current,
+          { x: fromX, opacity: 0 },
+          {
+            x: "0%",
+            opacity: 1,
+            duration: 0.4,
+            ease: "power2.out",
+            onComplete: () => setIsAnimating(false),
+          }
+        );
+      },
+    });
   }
 
   useEffect(() => {
-    setShowedCars(cars.filter((car) => car.homepage === 1));
+    const filtered = cars.filter((car) => car.homepage === 1);
+    setShowedCars(filtered);
+    setActiveSlideIndex(0);
   }, [cars]);
 
-  useEffect(() => {
-    setActiveSlideIndex(0);
-    console.log("showedCars", showedCars);
-  }, [showedCars]);
+  if (showedCars.length === 0) return null;
 
-  useEffect(() => {
-    if (showedCars.length > 0 && activeSlideIndex !== null) {
-      const newPrevSlideIndex = mod(activeSlideIndex - 1, showedCars.length);
-      const newNextSlideIndex = mod(activeSlideIndex + 1, showedCars.length);
-      setPrevSlideIndex(newPrevSlideIndex);
-      setNextSlideIndex(newNextSlideIndex);
-    }
-  }, [activeSlideIndex, showedCars]);
+  const car = showedCars[activeSlideIndex];
+  const prevIndex = mod(activeSlideIndex - 1, showedCars.length);
+  const nextIndex = mod(activeSlideIndex + 1, showedCars.length);
 
   return (
     <div className={styles.sliderContainer}>
-      {showedCars.length > 0 &&
-        activeSlideIndex !== null &&
-        prevSlideIndex !== null &&
-        nextSlideIndex !== null && (
-          <>
-            <div
-              ref={prevSlideRef}
-              className={`${styles.slide} ${styles.prevSlide}`}
-            >
-              <img
-                onClick={() => handleChangeSlide(prevSlideIndex, "prev")}
-                src={`${import.meta.env.VITE_BACKEND_URL}/${
-                  showedCars[prevSlideIndex].images.find(
-                    (image) => image.is_main === 1
-                  ).path
-                }`}
-                alt="activeslide-image"
-              />
-            </div>
+      <div className={`${styles.slide} ${styles.sideSlide}`}>
+        <img
+          onClick={() => handleChangeSlide(prevIndex, "prev")}
+          src={`${import.meta.env.VITE_BACKEND_URL}/${
+            showedCars[prevIndex].images.find((img) => img.is_main === 1).path
+          }`}
+          alt="previous car"
+        />
+      </div>
 
-            <div className={`${styles.slide} ${styles.active}`}>
-              <div className={styles.upperActiveSlide}>
-                <div className={styles.activeSlideModel}>
-                  <span>{showedCars[activeSlideIndex].model}</span>
-                </div>
-                <div className={styles.activeSlideLogo}>
-                  <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}/${
-                      showedCars[activeSlideIndex].brand.logo_path
-                    }`}
-                    alt={`${showedCars[activeSlideIndex].brand.name}`}
-                  />
-                </div>
-              </div>
-              <div
-                ref={activeSlideRef}
-                className={styles.imageContainerActiveSlide}
-              >
-                <div className={styles.activeSlideTitle}>
-                  <span>{showedCars[activeSlideIndex].brand.name}</span>
-                </div>
+      <div ref={activeSlideRef} className={`${styles.slide} ${styles.active}`}>
+        <div className={styles.upperActiveSlide}>
+          <div className={styles.activeSlideModel}>
+            <span>{car.model}</span>
+          </div>
+          <div className={styles.activeSlideLogo}>
+            <img
+              src={`${import.meta.env.VITE_BACKEND_URL}/${car.brand.logo_path}`}
+              alt={car.brand.name}
+            />
+          </div>
+        </div>
 
-                <img
-                  src={`${import.meta.env.VITE_BACKEND_URL}/${
-                    showedCars[activeSlideIndex].images.find(
-                      (image) => image.is_main === 1
-                    ).path
-                  }`}
-                  alt="activeslide-image"
-                />
-              </div>
-              <div className={styles.lowerActiveSlide}>
-                <div className={styles.activeSlideDescription}>
-                  <span>{showedCars[activeSlideIndex].description}</span>
-                </div>
-                <div className={styles.activeSlideInfo}>
-                  <div>
-                    <img src={carEngineIcon} alt="car-engine" />
-                    <div className={styles.separatorLine}></div>
-                    <span>{showedCars[activeSlideIndex].engine_size} cc</span>
-                  </div>
-                  <div>
-                    <img src={powerIcon} alt="power" />
-                    <div className={styles.separatorLine}></div>
-                    <span>{showedCars[activeSlideIndex].horsepower} cv</span>
-                  </div>
-                  <div>
-                    <img src={calendarIcon} alt="calendar" />
-                    <div className={styles.separatorLine}></div>
-                    <span>{showedCars[activeSlideIndex].year}</span>
-                  </div>
-                </div>
-                <div className={styles.activeSlideButton}>
-                  <Button>Vedi dettagli</Button>
-                </div>
-              </div>
-            </div>
+        <div className={styles.imageContainerActiveSlide}>
+          <div className={styles.activeSlideTitle}>
+            <span>{car.brand.name}</span>
+          </div>
+          <img
+            src={`${import.meta.env.VITE_BACKEND_URL}/${
+              car.images.find((img) => img.is_main === 1).path
+            }`}
+            alt="active car"
+          />
+        </div>
 
-            <div
-              ref={nextSlideRef}
-              className={`${styles.slide} ${styles.nextSlide}`}
-            >
-              <img
-                onClick={() => handleChangeSlide(nextSlideIndex, "next")}
-                src={`${import.meta.env.VITE_BACKEND_URL}/${
-                  showedCars[nextSlideIndex].images.find(
-                    (image) => image.is_main === 1
-                  ).path
-                }`}
-                alt="activeslide-image"
-              />
+        <div className={styles.lowerActiveSlide}>
+          <div className={styles.activeSlideDescription}>
+            <span>{car.description}</span>
+          </div>
+          <div className={styles.activeSlideInfo}>
+            <div>
+              <img src={carEngineIcon} alt="car engine" />
+              <div className={styles.separatorLine}></div>
+              <span>{car.engine_size} cc</span>
             </div>
-          </>
-        )}
+            <div>
+              <img src={powerIcon} alt="power" />
+              <div className={styles.separatorLine}></div>
+              <span>{car.horsepower} cv</span>
+            </div>
+            <div>
+              <img src={calendarIcon} alt="calendar" />
+              <div className={styles.separatorLine}></div>
+              <span>{car.year}</span>
+            </div>
+          </div>
+          <div className={styles.activeSlideButton}>
+            <Button>Vedi dettagli</Button>
+          </div>
+        </div>
+      </div>
+
+      <div className={`${styles.slide} ${styles.sideSlide}`}>
+        <img
+          onClick={() => handleChangeSlide(nextIndex, "next")}
+          src={`${import.meta.env.VITE_BACKEND_URL}/${
+            showedCars[nextIndex].images.find((img) => img.is_main === 1).path
+          }`}
+          alt="next car"
+        />
+      </div>
     </div>
   );
 }
